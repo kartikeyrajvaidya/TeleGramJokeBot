@@ -1,6 +1,9 @@
 import os
 import telebot
 from jokes_engine.joke_fetcher import get_joke
+from keep_alive import keep_alive
+
+keep_alive()
 
 API_KEY = os.getenv('BOT_KEY')
 bot = telebot.TeleBot(API_KEY)
