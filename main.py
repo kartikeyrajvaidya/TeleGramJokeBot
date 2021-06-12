@@ -1,6 +1,5 @@
 import os
 import telebot
-import yfinance as yf
 from jokes_engine.joke_fetcher import get_joke
 
 API_KEY = os.getenv('BOT_KEY')
@@ -9,94 +8,30 @@ bot = telebot.TeleBot(API_KEY)
 
 @bot.message_handler(commands=['start', 'help'])
 def handle_start_help(message):
-	bot.reply_to(message, "Hey! Hows it going?")
+  resposne = "Hey! Hello {fName}.\nI can make your Day by telling you some jokes\nif interested type \"joke <joke_category>\".\nAvailable Joke categories are:\nMisc, Programming, Dark, Pun, Spooky and Christmas Or just type \"joke\" for a random hilarious Joke.\nExample: \n1] joke Pun\n2] joke\nAt Any Point of time you need help just type \"\help\" ".format(fName = message.from_user.first_name)
+  bot.send_message(message.chat.id, resposne)
 
-@bot.message_handler(commands=['Greet'])
-def greet(message):
-  bot.reply_to(message, "Hey! Hows it going?")
+# def request_validator(message):
+#   request = message.text.split()
+#   print(request)
+#   if request[0].lower() == 'joke':
+#     return True
+#   else:
+#     return False
 
-@bot.message_handler(commands=['hello'])
-def hello(message):
-  bot.send_message(message.chat.id, "Hello!")
-
-def request_validator(message):
-  request = message.text.split()
-  if request[0].lower == 'joke':
-    return False
-  else:
-    return True
-
-def get_response(request):
-  if request[0].lower == 'joke':
-    get_joke()
+def get_required_response(request):
+  response = 'Wrong Input, naughty boi'
+  request = request.split()
+  if request[0].lower() == "joke":
+    joke_category = request[1:1] if len(request) >= 2 else ['Any'] 
+    print(joke_category)
+    response = get_joke(joke_category)
+  return response
 
 
-@bot.message_handler(func=request_validator)
+@bot.message_handler()
 def handle_request(message):
-  response = get_response(message)
-  request = message.text.split()[1]
-  print(message)
-  bot.send_message(message.chat.id, "No data!?")  
-
-
-  
-
-
-  # data = yf.download(tickers=request, period='5m', interval='1m')
-  # if data.size > 0:
-  #   data = data.reset_index()
-  #   data["format_date"] = data['Datetime'].dt.strftime('%m/%d %I:%M %p')
-  #   data.set_index('format_date', inplace=True)
-  #   print(data.to_string())
-  #   bot.send_message(message.chat.id, data['Close'].to_string(header=False))
-  # else:
-  #   bot.send_message(message.chat.id, "No data!?")
-
-@bot.message_handler(commands=['wsb'])
-def get_stocks(message):
-  response = ""
-  stocks = ['gme', 'amc', 'nok']
-  stock_data = []
-  for stock in stocks:
-    data = yf.download(tickers=stock, period='2d', interval='1d')
-    data = data.reset_index()
-    response += f"-----{stock}-----\n"
-    stock_data.append([stock])
-    columns = ['stock']
-    for index, row in data.iterrows():
-      stock_position = len(stock_data) - 1
-      price = round(row['Close'], 2)
-      format_date = row['Date'].strftime('%m/%d')
-      response += f"{format_date}: {price}\n"
-      stock_data[stock_position].append(price)
-      columns.append(format_date)
-    print()
-
-  response = f"{columns[0] : <10}{columns[1] : ^10}{columns[2] : >10}\n"
-  for row in stock_data:
-    response += f"{row[0] : <10}{row[1] : ^10}{row[2] : >10}\n"
-  response += "\nStock Data"
-  print(response)
+  response = get_required_response(message.text)
   bot.send_message(message.chat.id, response)
-
-def stock_request(message):
-  request = message.text.split()
-  if len(request) < 2 or request[0].lower() not in "price":
-    return False
-  else:
-    return True
-
-@bot.message_handler(func=stock_request)
-def send_price(message):
-  request = message.text.split()[1]
-  data = yf.download(tickers=request, period='5m', interval='1m')
-  if data.size > 0:
-    data = data.reset_index()
-    data["format_date"] = data['Datetime'].dt.strftime('%m/%d %I:%M %p')
-    data.set_index('format_date', inplace=True)
-    print(data.to_string())
-    bot.send_message(message.chat.id, data['Close'].to_string(header=False))
-  else:
-    bot.send_message(message.chat.id, "No data!?")
 
 bot.polling()

@@ -300,17 +300,6 @@ version = "1.16.0"
 
 [[package]]
 category = "main"
-description = "A Telegram bot library, with simple route decorators."
-name = "telebot"
-optional = false
-python-versions = "*"
-version = "0.0.4"
-
-[package.dependencies]
-requests = "*"
-
-[[package]]
-category = "main"
 description = "Python Library for Tom's Obvious, Minimal Language"
 name = "toml"
 optional = false
@@ -346,7 +335,7 @@ pandas = ">=0.24"
 requests = ">=2.20"
 
 [metadata]
-content-hash = "435b2f95d376a3f722817f47c9946b8adc86a320c965eeb8bccecca11731f16c"
+content-hash = "cab709e3fa5d7db69e423168d3768168b3b247c498a659a0f2e2e0382f5028b7"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -582,10 +571,6 @@ simplejson = [
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
-]
-telebot = [
-    {file = "telebot-0.0.4-py3-none-any.whl", hash = "sha256:1d692ee3c2f07c5caacb1a82f0b59e40cef84f58be84435be9c8ce667dee94a6"},
-    {file = "telebot-0.0.4.tar.gz", hash = "sha256:717f08f0cbb2b3bbba73e8b36cca466345b751d44e938235eaa24139073f3265"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},
