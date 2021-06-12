@@ -3,18 +3,15 @@ from jokeapi import Jokes
 
 def get_joke(joke_category):
 
-  print(joke_category)
-  available_categories = ['Misc', 'Programming', 'Dark','Pun', 'Spooky', 'Christmas']
+  available_categories = ['misc', 'programming', 'dark','pun', 'spooky', 'christmas']
 
 
-  if (joke_category not in available_categories):
+  if (joke_category[0].lower() not in available_categories):
     joke_category = ['Any']
-    print(joke_category)
 
   j = Jokes()
   joke = j.get_joke(category=joke_category)
 
-  print(joke)
   if joke["type"] == "single":
     response = joke["joke"]
   else:

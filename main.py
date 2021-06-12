@@ -22,15 +22,16 @@ def handle_start_help(message):
 def get_required_response(request):
   response = 'Wrong Input, naughty boi'
   request = request.split()
+  print(len(request))
   if request[0].lower() == "joke":
-    joke_category = request[1:1] if len(request) >= 2 else ['Any'] 
-    print(joke_category)
+    joke_category = request[1:2] if len(request) >= 2 else ['Any'] 
     response = get_joke(joke_category)
   return response
 
 
 @bot.message_handler()
 def handle_request(message):
+  print('Hey New Joke Request from {name}'.format(name = message.from_user.first_name))
   response = get_required_response(message.text)
   bot.send_message(message.chat.id, response)
 
